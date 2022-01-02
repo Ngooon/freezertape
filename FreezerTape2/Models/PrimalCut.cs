@@ -12,5 +12,13 @@
 
 
         public List<Package>? Packages { get; set; }
+
+        public void Update(PrimalCut primalCut)
+        {
+            this.Id = primalCut.Id;
+            this.Name = primalCut.Name;
+            this.Packages = primalCut.Packages;
+            this.Species = primalCut.Species;
+        }
     }
 }

@@ -121,13 +121,15 @@ namespace FreezerTape2.Controllers
                         .Include(primalCut => primalCut.Species)
                         .FirstOrDefaultAsync(m => m.Id == id);
 
+                    primalCutToUpdate.Update(primalCut);
+
                     //await TryUpdateModelAsync<PrimalCut>(primalCutToUpdate, "", i => i.Name, i => i.Species);
                     //_context.Update(primalCut);
 
-                    primalCutToUpdate.Id = primalCut.Id;
-                    primalCutToUpdate.Name = primalCut.Name;
-                    primalCutToUpdate.Packages = primalCut.Packages;
-                    primalCutToUpdate.Species = primalCut.Species;
+                    //primalCutToUpdate.Id = primalCut.Id;
+                    //primalCutToUpdate.Name = primalCut.Name;
+                    //primalCutToUpdate.Packages = primalCut.Packages;
+                    //primalCutToUpdate.Species = primalCut.Species;
                         
                     //_context.Update(primalCutToUpdate);
 
