@@ -1,0 +1,89 @@
+﻿@model IEnumerable<FreezerTape2.Models.Carcass>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ShotDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShotPlace)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShotBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LiveWeight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DressedWeight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PositionOfBulkhead)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Specie)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShotDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShotPlace)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShotBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LiveWeight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DressedWeight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PositionOfBulkhead)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Age)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Specie.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
