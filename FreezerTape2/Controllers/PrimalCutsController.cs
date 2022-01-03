@@ -23,7 +23,11 @@ namespace FreezerTape2.Controllers
         // GET: PrimalCuts
         public async Task<IActionResult> Index()
         {
-            return View(await _context.PrimalCut.ToListAsync());
+            var primalCuts = await _context.PrimalCut
+                .Include(p => p.Packages)
+                .Include(p => p.Species)
+                .ToListAsync();
+            return View(primalCuts);
         }
 
         // GET: PrimalCuts/Details/5
@@ -53,7 +57,7 @@ namespace FreezerTape2.Controllers
         // GET: PrimalCuts/Create
         public IActionResult Create()
         {
-            ViewBag.Species = new MultiSelectList(_context.Specie.ToList(), "Id", "Name");
+            PopulateSelectList();
             return View();
         }
 
@@ -62,7 +66,7 @@ namespace FreezerTape2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] PrimalCut primalCut, [FromForm] List<int> specieIds)
+        public async Task<IActionResult> Create([Bind("Id,Name")] PrimalCut primalCut, [FromForm] int[] specieIds)
         {
             primalCut.Species = await _context.Specie.Where(i => specieIds.Contains(i.Id)).ToListAsync();
 
@@ -72,6 +76,7 @@ namespace FreezerTape2.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            PopulateSelectList(specieIds);
             return View(primalCut);
         }
 
@@ -93,10 +98,8 @@ namespace FreezerTape2.Controllers
                 return NotFound();
             }
 
-            List<Specie> availableSpecies = _context.Specie.ToList();
             int[] selectedSpecies = primalCut.Species.Select(c => c.Id).ToArray();
-            MultiSelectList selectList = new MultiSelectList(availableSpecies, "Id", "Name", selectedSpecies);
-            ViewBag.Species = selectList;
+            PopulateSelectList(selectedSpecies);
 
             return View(primalCut);
         }
@@ -106,7 +109,7 @@ namespace FreezerTape2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] PrimalCut primalCut, [FromForm] int[] species, [FromForm] int[] pakages)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] PrimalCut primalCut, [FromForm] int[] species)
         {
             if (id != primalCut.Id)
             {
@@ -114,14 +117,12 @@ namespace FreezerTape2.Controllers
             }
 
             primalCut.Species = await _context.Specie.Where(i => species.Contains(i.Id)).ToListAsync();
-            primalCut.Packages = await _context.Package.Where(i => pakages.Contains(i.Id)).ToListAsync();
 
             if (ModelState.IsValid)
             {
                 try
                 {
                     var primalCutToUpdate = await _context.PrimalCut
-                        .Include(primalCut => primalCut.Packages)
                         .Include(primalCut => primalCut.Species)
                         .FirstOrDefaultAsync(m => m.Id == id);
 
@@ -142,6 +143,8 @@ namespace FreezerTape2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            int[] selectedSpecies = primalCut.Species.Select(c => c.Id).ToArray();
+            PopulateSelectList(selectedSpecies);
             return View(primalCut);
         }
 
@@ -154,6 +157,12 @@ namespace FreezerTape2.Controllers
             }
 
             var primalCut = await _context.PrimalCut
+                .Include(primalCut => primalCut.Packages)
+                .ThenInclude(package => package.Carcass)
+                .ThenInclude(carcass => carcass.Specie)
+                .Include(primalCut => primalCut.Packages)
+                .ThenInclude(package => package.StoragePlace)
+                .Include(primalCut => primalCut.Species)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (primalCut == null)
             {
@@ -177,6 +186,17 @@ namespace FreezerTape2.Controllers
         private bool PrimalCutExists(int id)
         {
             return _context.PrimalCut.Any(e => e.Id == id);
+        }
+
+        //ViewBag[]"Species"] = new MultiSelectList(_context.Specie.ToList(), "Id", "Name", selectedSpecie);
+        private void PopulateSelectList()
+        {
+            PopulateSelectList(null);
+        }
+
+        private void PopulateSelectList(int[] selectedSpecie)
+        {
+            ViewData["Species"] = new MultiSelectList(_context.Specie, "Id", "IdentifyingName", selectedSpecie);
         }
     }
 }

@@ -23,7 +23,10 @@ namespace FreezerTape2.Controllers
         // GET: StoragePlaces
         public async Task<IActionResult> Index()
         {
-            return View(await _context.StoragePlace.ToListAsync());
+            var storagePlaces = await _context.StoragePlace
+                .Include(s => s.Packages)
+                .ToListAsync();
+            return View(storagePlaces);
         }
 
         // GET: StoragePlaces/Details/5
@@ -35,6 +38,11 @@ namespace FreezerTape2.Controllers
             }
 
             var storagePlace = await _context.StoragePlace
+                .Include(s => s.Packages)
+                .ThenInclude(p => p.Carcass)
+                .ThenInclude(c => c.Specie)
+                .Include(s => s.Packages)
+                .ThenInclude(p => p.PrimalCut)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (storagePlace == null)
             {
@@ -126,6 +134,11 @@ namespace FreezerTape2.Controllers
             }
 
             var storagePlace = await _context.StoragePlace
+                .Include(s => s.Packages)
+                .ThenInclude(p => p.Carcass)
+                .ThenInclude(c => c.Specie)
+                .Include(s => s.Packages)
+                .ThenInclude(p => p.PrimalCut)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (storagePlace == null)
             {

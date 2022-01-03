@@ -1,20 +1,71 @@
 ﻿@model FreezerTape2.Models.StoragePlace
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = @Model.Name.ToString() + " - Details";
 }
 
-<h1>Details</h1>
+<h1>@Html.DisplayFor(model => model.Name)</h1>
 
 <div>
-    <h4>StoragePlace</h4>
+    <h4>Details</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dd class="col-sm-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Packages.First().Id)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Packages.First().Weight)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Packages.First().PackingDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Packages.First().ExpiryDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Packages.First().Carcass.Specie)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Packages.First().PrimalCut)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Package package in Model.Packages)
+                    {
+                        <tr>
+                            <td>
+                                <a asp-controller="Packages" asp-action="Details" asp-route-id="@package.Id">@Html.DisplayFor(modelItem => package.Id)</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => package.Weight)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => package.PackingDate, "ShortDate")
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => package.ExpiryDate, "ShortDate")
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => package.Carcass.Specie.IdentifyingName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => package.PrimalCut.ShortName)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </dd>
     </dl>
 </div>
