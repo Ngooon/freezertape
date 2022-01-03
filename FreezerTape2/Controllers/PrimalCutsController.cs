@@ -36,6 +36,10 @@ namespace FreezerTape2.Controllers
 
             var primalCut = await _context.PrimalCut
                 .Include(primalCut => primalCut.Packages)
+                .ThenInclude(package => package.Carcass)
+                .ThenInclude(carcass => carcass.Specie)
+                .Include(primalCut => primalCut.Packages)
+                .ThenInclude(package => package.StoragePlace)
                 .Include(primalCut => primalCut.Species)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (primalCut == null)
@@ -58,9 +62,9 @@ namespace FreezerTape2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] PrimalCut primalCut, [FromForm] List<int> species)
+        public async Task<IActionResult> Create([Bind("Id,Name")] PrimalCut primalCut, [FromForm] List<int> specieIds)
         {
-            primalCut.Species = await _context.Specie.Where(i => species.Contains(i.Id)).ToListAsync();
+            primalCut.Species = await _context.Specie.Where(i => specieIds.Contains(i.Id)).ToListAsync();
 
             if (ModelState.IsValid)
             {
@@ -102,7 +106,7 @@ namespace FreezerTape2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] PrimalCut primalCut, [FromForm] List<int> species)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] PrimalCut primalCut, [FromForm] int[] species, [FromForm] int[] pakages)
         {
             if (id != primalCut.Id)
             {
@@ -110,7 +114,7 @@ namespace FreezerTape2.Controllers
             }
 
             primalCut.Species = await _context.Specie.Where(i => species.Contains(i.Id)).ToListAsync();
-
+            primalCut.Packages = await _context.Package.Where(i => pakages.Contains(i.Id)).ToListAsync();
 
             if (ModelState.IsValid)
             {
@@ -121,17 +125,7 @@ namespace FreezerTape2.Controllers
                         .Include(primalCut => primalCut.Species)
                         .FirstOrDefaultAsync(m => m.Id == id);
 
-                    primalCutToUpdate.Update(primalCut);
-
-                    //await TryUpdateModelAsync<PrimalCut>(primalCutToUpdate, "", i => i.Name, i => i.Species);
-                    //_context.Update(primalCut);
-
-                    //primalCutToUpdate.Id = primalCut.Id;
-                    //primalCutToUpdate.Name = primalCut.Name;
-                    //primalCutToUpdate.Packages = primalCut.Packages;
-                    //primalCutToUpdate.Species = primalCut.Species;
-                        
-                    //_context.Update(primalCutToUpdate);
+                    primalCutToUpdate.Copy(primalCut);
 
                     await _context.SaveChangesAsync();
                 }

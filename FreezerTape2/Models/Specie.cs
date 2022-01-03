@@ -5,9 +5,13 @@
         public int Id { get; set; }
         public string? Name { get; set; }
 
-        public ICollection<PrimalCut> PrimalCuts { get; set; }
-        //public ICollection<SpeciePrimalCut> SpeciePrimalCuts { get; set; }
+        public ICollection<PrimalCut>? PrimalCuts { get; set; }
 
         public List<Carcass>? Carcasses { get; set; }
+
+        public Specie(int id)
+        {
+            this.Id = id;
+        }
     }
 }

@@ -6,7 +6,7 @@ namespace FreezerTape2.Models
     {
         public int Id { get; set; }
 
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date)]
         public DateTime? ShotDate { get; set; }
 
         public string? ShotPlace { get; set; }
@@ -24,5 +24,34 @@ namespace FreezerTape2.Models
         public Specie? Specie { get; set; }
 
         public List<Package>? Packages { get; set; }
+
+        public String ShortName
+        {
+            get
+            {
+                if (this.Specie != null)
+                {
+                    if (this.ShotDate != null)
+                    {
+                        return this.Id.ToString() + " - " + this.Specie.Name.ToString() + " - " + this.ShotDate.GetValueOrDefault().ToShortDateString();
+                    }
+                    else
+                    {
+                        return this.Id.ToString() + " - " + this.Specie.Name.ToString();
+                    }
+                }
+                else
+                {
+                    if (this.ShotDate != null)
+                    {
+                        return this.Id.ToString() + " - " + this.ShotDate.ToString();
+                    }
+                    else
+                    {
+                        return this.Id.ToString();
+                    }
+                }
+            }
+        }
     }
 }

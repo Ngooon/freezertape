@@ -18,7 +18,8 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                @Html.DropDownList("Species", (MultiSelectList)ViewBag.Species, new { multiple = "multiple"})
+                <label asp-for="Species" class="control-label"></label>
+                @Html.ListBox("Species", (MultiSelectList)ViewBag.Species, new { @class="form-control"})
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

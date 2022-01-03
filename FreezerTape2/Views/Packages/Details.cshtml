@@ -1,0 +1,128 @@
+﻿@model FreezerTape2.Models.Package
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Package</h4>
+    <hr />
+    <dl class="row">
+        <dd class="col-sm-6">
+            <dl class="row">
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.PrimalCut)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.PrimalCut.ShortName)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Weight)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.WeightAsString)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.PackingDate)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.PackingDate)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.ExpiryDate)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.ExpiryDate)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.StoragePlace)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.StoragePlace.ShortName)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Comment)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Comment)
+                </dd>
+            </dl>
+        </dd>
+        <dd class="col-sm-6">
+            <dl class="row">
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Carcass.Id)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Carcass.Id)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Carcass.ShotDate)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Carcass.ShotDate)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Carcass.ShotPlace)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Carcass.ShotPlace)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Carcass.ShotBy)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Carcass.ShotBy)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Carcass.LiveWeight)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Carcass.LiveWeight)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Carcass.DressedWeight)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Carcass.DressedWeight)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Carcass.PositionOfBulkhead)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Carcass.PositionOfBulkhead)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Carcass.Gender)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Carcass.Gender)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Carcass.Age)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Carcass.Age)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Carcass.Comment)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Carcass.Comment)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Carcass.Specie)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Carcass.Specie.Name)
+                </dd>
+            </dl>
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

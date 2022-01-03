@@ -23,8 +23,12 @@ namespace FreezerTape2.Controllers
         // GET: Packages
         public async Task<IActionResult> Index()
         {
-            var freezerContext = _context.Package.Include(p => p.Carcass).Include(p => p.PrimalCut).Include(p => p.StoragePlace);
-            return View(await freezerContext.ToListAsync());
+            var packages = await _context.Package
+                .Include(p => p.Carcass)
+                .ThenInclude(c => c.Specie)
+                .Include(p => p.PrimalCut)
+                .Include(p => p.StoragePlace).ToListAsync();
+            return View(packages);
         }
 
         // GET: Packages/Details/5
@@ -37,6 +41,7 @@ namespace FreezerTape2.Controllers
 
             var package = await _context.Package
                 .Include(p => p.Carcass)
+                .ThenInclude(c => c.Specie)
                 .Include(p => p.PrimalCut)
                 .Include(p => p.StoragePlace)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -51,9 +56,7 @@ namespace FreezerTape2.Controllers
         // GET: Packages/Create
         public IActionResult Create()
         {
-            ViewData["CarcassId"] = new SelectList(_context.Carcass, "Id", "Id");
-            ViewData["PrimalCutId"] = new SelectList(_context.Set<PrimalCut>(), "Id", "Id");
-            ViewData["StoragePlaceId"] = new SelectList(_context.Set<StoragePlace>(), "Id", "Id");
+            PopulateSelectList();
             return View();
         }
 
@@ -70,9 +73,7 @@ namespace FreezerTape2.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CarcassId"] = new SelectList(_context.Carcass, "Id", "Id", package.CarcassId);
-            ViewData["PrimalCutId"] = new SelectList(_context.Set<PrimalCut>(), "Id", "Id", package.PrimalCutId);
-            ViewData["StoragePlaceId"] = new SelectList(_context.Set<StoragePlace>(), "Id", "Id", package.StoragePlaceId);
+            PopulateSelectList(package.CarcassId, package.PrimalCutId, package.StoragePlaceId);
             return View(package);
         }
 
@@ -89,9 +90,8 @@ namespace FreezerTape2.Controllers
             {
                 return NotFound();
             }
-            ViewData["CarcassId"] = new SelectList(_context.Carcass, "Id", "Id", package.CarcassId);
-            ViewData["PrimalCutId"] = new SelectList(_context.Set<PrimalCut>(), "Id", "Id", package.PrimalCutId);
-            ViewData["StoragePlaceId"] = new SelectList(_context.Set<StoragePlace>(), "Id", "Id", package.StoragePlaceId);
+
+            PopulateSelectList(package.CarcassId, package.PrimalCutId, package.StoragePlaceId);
             return View(package);
         }
 
@@ -127,9 +127,7 @@ namespace FreezerTape2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CarcassId"] = new SelectList(_context.Carcass, "Id", "Id", package.CarcassId);
-            ViewData["PrimalCutId"] = new SelectList(_context.Set<PrimalCut>(), "Id", "Id", package.PrimalCutId);
-            ViewData["StoragePlaceId"] = new SelectList(_context.Set<StoragePlace>(), "Id", "Id", package.StoragePlaceId);
+            PopulateSelectList(package.CarcassId, package.PrimalCutId, package.StoragePlaceId);
             return View(package);
         }
 
@@ -143,6 +141,7 @@ namespace FreezerTape2.Controllers
 
             var package = await _context.Package
                 .Include(p => p.Carcass)
+                .ThenInclude(c => c.Specie)
                 .Include(p => p.PrimalCut)
                 .Include(p => p.StoragePlace)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -168,6 +167,18 @@ namespace FreezerTape2.Controllers
         private bool PackageExists(int id)
         {
             return _context.Package.Any(e => e.Id == id);
+        }
+
+        private void PopulateSelectList()
+        {
+            PopulateSelectList(null, null, null);
+        }
+
+        private void PopulateSelectList(int? selectedCarcass, int? selectedPrimalCut, int? selectedStoragePlace)
+        {
+            ViewData["Carcasses"] = new SelectList(_context.Carcass.Include(c => c.Specie).OrderByDescending(c => c.ShotDate), "Id", "ShortName", selectedCarcass);
+            ViewData["PrimalCuts"] = new SelectList(_context.PrimalCut, "Id", "ShortName", selectedPrimalCut);
+            ViewData["StoragePlaces"] = new SelectList(_context.StoragePlace, "Id", "ShortName", selectedStoragePlace);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using FreezerTape2.Helpers;
 
 namespace FreezerTape2.Models
 {
@@ -7,20 +8,34 @@ namespace FreezerTape2.Models
         public int Id { get; set; }
         public double? Weight { get; set; }
 
-        [DataType(DataType.DateTime)]
+        [Display(Name = "Packing date")]
+        [DataType(DataType.Date)]
         public DateTime? PackingDate { get; set; }
 
-        [DataType(DataType.DateTime)]
+        [Display(Name = "Expiry date")]
+        [DataType(DataType.Date)]
         public DateTime? ExpiryDate { get; set; }
+
         public string? Comment { get; set; }
 
+        [Display(Name = "Carcass")]
         public int? CarcassId { get; set; }
         public Carcass? Carcass { get; set; }
 
+        [Display(Name = "Primal cut")]
         public int? PrimalCutId { get; set; }
         public PrimalCut? PrimalCut { get; set; }
 
+        [Display(Name = "Storage place")]
         public int? StoragePlaceId { get; set; }
         public StoragePlace? StoragePlace { get; set; }
+
+        public string WeightAsString
+        {
+            get
+            {
+                return new Weight(this.Weight).ToString();
+            }
+        }
     }
 }
