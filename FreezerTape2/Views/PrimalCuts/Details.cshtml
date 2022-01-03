@@ -10,7 +10,7 @@
     <h4>Details</h4>
     <hr />
     <dl class="row">
-        <dd class = "col-sm-6">
+        <dd class="col-sm-6">
             <table class="table">
                 <thead>
                     <tr>
@@ -32,29 +32,30 @@
                     </tr>
                 </thead>
                 <tbody>
-@foreach (Package package in Model.Packages) {
-                    <tr>
-                        <td>
-                            <a asp-controller="Packages" asp-action="Details" asp-route-id="@package.Id">@Html.DisplayFor(modelItem => package.Id)</a>
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => package.Weight)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => package.PackingDate, "ShortDate")
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => package.Carcass.Specie.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => package.StoragePlace.Name)
-                        </td>
-                    </tr>
-}
+                    @foreach (Package package in Model.Packages)
+                    {
+                        <tr>
+                            <td>
+                                <a asp-controller="Packages" asp-action="Details" asp-route-id="@package.Id">@Html.DisplayFor(modelItem => package.Id)</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => package.Weight)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => package.PackingDate, "ShortDate")
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => package.Carcass.Specie.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => package.StoragePlace.Name)
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </dd>
-        <dd class = "col-sm-6">
+        <dd class="col-sm-6">
             <table class="table">
                 <thead>
                     <tr>
@@ -67,16 +68,17 @@
                     </tr>
                 </thead>
                 <tbody>
-@foreach (Specie specie in Model.Species) {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => specie.Id)
-                        </td>
-                        <td>
-                            <a asp-controller="Species" asp-action="Details" asp-route-id="@specie.Id">@Html.DisplayFor(modelItem => specie.Name)</a>
-                        </td>
-                    </tr>
-}
+                    @foreach (Specie specie in Model.Species)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => specie.Id)
+                            </td>
+                            <td>
+                                <a asp-controller="Species" asp-action="Details" asp-route-id="@specie.Id">@Html.DisplayFor(modelItem => specie.Name)</a>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </dd>

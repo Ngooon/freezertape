@@ -13,5 +13,21 @@
         {
             this.Id = id;
         }
+
+
+        public String IdentifyingName
+        {
+            get
+            {
+                if (this.Name != null)
+                {
+                    return this.Id.ToString() + " - " + this.Name.ToString();
+                }
+                else
+                {
+                    return this.Id.ToString();
+                }
+            }
+        }
     }
 }

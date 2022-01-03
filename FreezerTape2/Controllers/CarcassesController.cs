@@ -23,8 +23,11 @@ namespace FreezerTape2.Controllers
         // GET: Carcasses
         public async Task<IActionResult> Index()
         {
-            var freezerContext = _context.Carcass.Include(c => c.Specie);
-            return View(await freezerContext.ToListAsync());
+            var carcasses = await _context.Carcass
+                .Include(c => c.Specie)
+                .Include(c => c.Packages)
+                .ToListAsync();
+            return View(carcasses);
         }
 
         // GET: Carcasses/Details/5
@@ -37,6 +40,10 @@ namespace FreezerTape2.Controllers
 
             var carcass = await _context.Carcass
                 .Include(c => c.Specie)
+                .Include(c => c.Packages)
+                .ThenInclude(p => p.PrimalCut)
+                .Include(c => c.Packages)
+                .ThenInclude(p => p.StoragePlace)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (carcass == null)
             {
@@ -49,7 +56,7 @@ namespace FreezerTape2.Controllers
         // GET: Carcasses/Create
         public IActionResult Create()
         {
-            ViewData["SpecieId"] = new SelectList(_context.Set<Specie>(), "Id", "Id");
+            PopulateSelectList();
             return View();
         }
 
@@ -66,7 +73,7 @@ namespace FreezerTape2.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SpecieId"] = new SelectList(_context.Set<Specie>(), "Id", "Id", carcass.SpecieId);
+            PopulateSelectList(carcass.SpecieId);
             return View(carcass);
         }
 
@@ -83,7 +90,7 @@ namespace FreezerTape2.Controllers
             {
                 return NotFound();
             }
-            ViewData["SpecieId"] = new SelectList(_context.Set<Specie>(), "Id", "Id", carcass.SpecieId);
+            PopulateSelectList(carcass.SpecieId);
             return View(carcass);
         }
 
@@ -119,7 +126,7 @@ namespace FreezerTape2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SpecieId"] = new SelectList(_context.Set<Specie>(), "Id", "Id", carcass.SpecieId);
+            PopulateSelectList(carcass.SpecieId);
             return View(carcass);
         }
 
@@ -133,6 +140,10 @@ namespace FreezerTape2.Controllers
 
             var carcass = await _context.Carcass
                 .Include(c => c.Specie)
+                .Include(c => c.Packages)
+                .ThenInclude(p => p.PrimalCut)
+                .Include(c => c.Packages)
+                .ThenInclude(p => p.StoragePlace)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (carcass == null)
             {
@@ -156,6 +167,16 @@ namespace FreezerTape2.Controllers
         private bool CarcassExists(int id)
         {
             return _context.Carcass.Any(e => e.Id == id);
+        }
+
+        private void PopulateSelectList()
+        {
+            PopulateSelectList(null);
+        }
+
+        private void PopulateSelectList(int? selectedSpecie)
+        {
+            ViewData["Species"] = new SelectList(_context.Specie, "Id", "IdentifyingName", selectedSpecie);
         }
     }
 }

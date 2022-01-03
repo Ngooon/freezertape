@@ -13,6 +13,10 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="SpecieId" class="control-label"></label>
+                <select asp-for="SpecieId" class ="form-control" asp-items="ViewBag.Species"></select>
+            </div>
+            <div class="form-group">
                 <label asp-for="ShotDate" class="control-label"></label>
                 <input asp-for="ShotDate" class="form-control" />
                 <span asp-validation-for="ShotDate" class="text-danger"></span>
@@ -56,10 +60,6 @@
                 <label asp-for="Comment" class="control-label"></label>
                 <input asp-for="Comment" class="form-control" />
                 <span asp-validation-for="Comment" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SpecieId" class="control-label"></label>
-                <select asp-for="SpecieId" class ="form-control" asp-items="ViewBag.SpecieId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
