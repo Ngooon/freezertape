@@ -1,7 +1,7 @@
 ﻿@model FreezerTape2.Models.Specie
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = @Model.Name.ToString() + " - Delete";
 }
 
 <h1>Delete</h1>
@@ -16,6 +16,88 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dd class="col-sm-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PrimalCuts.First().Id)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PrimalCuts.First().Name)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (PrimalCut primalCut in Model.PrimalCuts)
+                    {
+                        <tr>
+                            <td>
+                                <a asp-controller="Packages" asp-action="Details" asp-route-id="@primalCut.Id">@Html.DisplayFor(modelItem => primalCut.Id)</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => primalCut.IdentifyingName)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </dd>
+        <dd class="col-sm-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PrimalCuts.First().Packages.First().Id)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PrimalCuts.First().Packages.First().Weight)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PrimalCuts.First().Packages.First().PackingDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PrimalCuts.First().Packages.First().ExpiryDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PrimalCuts.First().Packages.First().PrimalCut)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PrimalCuts.First().Packages.First().StoragePlace)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (PrimalCut primalCut in Model.PrimalCuts)
+                    {
+                        @foreach (Package package in primalCut.Packages)
+
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-controller="Packages" asp-action="Details" asp-route-id="@package.Id">@Html.DisplayFor(modelItem => package.Id)</a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => package.Weight)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => package.PackingDate, "ShortDate")
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => package.ExpiryDate, "ShortDate")
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => package.PrimalCut.IdentifyingName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => package.StoragePlace.IdentifyingName)
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
         </dd>
     </dl>
     

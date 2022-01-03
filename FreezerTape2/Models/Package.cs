@@ -37,5 +37,34 @@ namespace FreezerTape2.Models
                 return new Weight(this.Weight).ToString();
             }
         }
+
+        public String IdentifyingName
+        {
+            get
+            {
+                if (this.Carcass != null)
+                {
+                    if (this.PrimalCut != null)
+                    {
+                        return this.Id.ToString() + " - " + this.PrimalCut.Name + " (" + this.Carcass.IdentifyingName + ")";
+                    }
+                    else
+                    {
+                        return this.Id.ToString() + " (" + this.Carcass.IdentifyingName + ")";
+                    }
+                }
+                else
+                {
+                    if (this.PrimalCut != null)
+                    {
+                        return this.Id.ToString() + " - " + this.PrimalCut.Name;
+                    }
+                    else
+                    {
+                        return this.Id.ToString();
+                    }
+                }
+            }
+        }
     }
 }

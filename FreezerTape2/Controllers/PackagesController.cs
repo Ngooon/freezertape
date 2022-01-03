@@ -176,9 +176,9 @@ namespace FreezerTape2.Controllers
 
         private void PopulateSelectList(int? selectedCarcass, int? selectedPrimalCut, int? selectedStoragePlace)
         {
-            ViewData["Carcasses"] = new SelectList(_context.Carcass.Include(c => c.Specie).OrderByDescending(c => c.ShotDate), "Id", "ShortName", selectedCarcass);
-            ViewData["PrimalCuts"] = new SelectList(_context.PrimalCut, "Id", "ShortName", selectedPrimalCut);
-            ViewData["StoragePlaces"] = new SelectList(_context.StoragePlace, "Id", "ShortName", selectedStoragePlace);
+            ViewData["Carcasses"] = new SelectList(_context.Carcass.Include(c => c.Specie).OrderByDescending(c => c.ShotDate), "Id", "IdentifyingName", selectedCarcass);
+            ViewData["PrimalCuts"] = new SelectList(_context.PrimalCut, "Id", "IdentifyingName", selectedPrimalCut);
+            ViewData["StoragePlaces"] = new SelectList(_context.StoragePlace, "Id", "IdentifyingName", selectedStoragePlace);
         }
     }
 }

@@ -29,5 +29,18 @@
                 }
             }
         }
+
+        public int CountPackages
+        {
+            get
+            {
+                int count = 0;
+                foreach (Carcass carcass in Carcasses)
+                {
+                    count += carcass.Packages.Count();
+                }
+                return count;
+            }
+        }
     }
 }

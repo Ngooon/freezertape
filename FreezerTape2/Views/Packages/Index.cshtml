@@ -40,10 +40,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Carcass.Specie.Name)
+                @Html.DisplayFor(modelItem => item.Carcass.Specie.IdentifyingName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PrimalCut.ShortName)
+                @Html.DisplayFor(modelItem => item.PrimalCut.IdentifyingName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.WeightAsString)
@@ -55,7 +55,7 @@
                 @Html.DisplayFor(modelItem => item.ExpiryDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StoragePlace.ShortName)
+                @Html.DisplayFor(modelItem => item.StoragePlace.IdentifyingName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Comment)

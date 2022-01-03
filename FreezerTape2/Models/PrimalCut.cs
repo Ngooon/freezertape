@@ -17,7 +17,7 @@
             this.Species = primalCut.Species;
         }
 
-        public String ShortName  
+        public String IdentifyingName  
         {
             get
             {

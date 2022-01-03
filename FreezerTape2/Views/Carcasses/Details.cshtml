@@ -114,10 +114,10 @@
                                 @Html.DisplayFor(modelItem => package.ExpiryDate, "ShortDate")
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => package.PrimalCut.ShortName)
+                                @Html.DisplayFor(modelItem => package.PrimalCut.IdentifyingName)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => package.StoragePlace.ShortName)
+                                @Html.DisplayFor(modelItem => package.StoragePlace.IdentifyingName)
                             </td>
                         </tr>
                     }

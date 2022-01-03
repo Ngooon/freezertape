@@ -23,7 +23,12 @@ namespace FreezerTape2.Controllers
         // GET: Species
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Specie.ToListAsync());
+            var species = await _context.Specie
+                .Include(s => s.PrimalCuts)
+                .Include(s => s.Carcasses)
+                .ThenInclude(c => c.Packages)
+                .ToListAsync();
+            return View(species);
         }
 
         // GET: Species/Details/5
@@ -35,6 +40,10 @@ namespace FreezerTape2.Controllers
             }
 
             var specie = await _context.Specie
+                .Include(s => s.PrimalCuts)
+                .Include(s => s.Carcasses)
+                .ThenInclude(c => c.Packages)
+                .ThenInclude(p => p.StoragePlace)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (specie == null)
             {
@@ -126,6 +135,9 @@ namespace FreezerTape2.Controllers
             }
 
             var specie = await _context.Specie
+                .Include(s => s.PrimalCuts)
+                .ThenInclude(p => p.Packages)
+                .ThenInclude(p => p.StoragePlace)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (specie == null)
             {

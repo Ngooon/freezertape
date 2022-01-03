@@ -7,7 +7,7 @@
 
         public List<Package>? Packages { get; set; }
 
-        public String ShortName
+        public String IdentifyingName
         {
             get
             {
