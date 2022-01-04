@@ -64,7 +64,7 @@ namespace FreezerTape2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Specie specie)
+        public async Task<IActionResult> Create([Bind("Id,Name,ShelfLife")] Specie specie)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +96,7 @@ namespace FreezerTape2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Specie specie)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ShelfLife")] Specie specie)
         {
             if (id != specie.Id)
             {

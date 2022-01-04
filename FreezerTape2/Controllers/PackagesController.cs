@@ -94,6 +94,14 @@ namespace FreezerTape2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Weight,PackingDate,ExpiryDate,Comment,CarcassId,PrimalCutId,StoragePlaceId")] Package package)
         {
+            if (package.ExpiryDate == null)
+            {
+                var carcass = await _context.Carcass.Include(c => c.Specie).FirstOrDefaultAsync(c => c.Id == package.CarcassId);
+                int shelfLifeInMonths = carcass.Specie.ShelfLife.GetValueOrDefault();
+                DateTime startTime = package.PackingDate != null ? package.PackingDate.GetValueOrDefault() : DateTime.Now.Date;
+                package.ExpiryDate = startTime.AddMonths(shelfLifeInMonths);
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(package);
@@ -203,9 +211,9 @@ namespace FreezerTape2.Controllers
 
         private void PopulateSelectList(int? selectedCarcass, int? selectedPrimalCut, int? selectedStoragePlace)
         {
-            ViewData["Carcasses"] = new SelectList(_context.Carcass.Include(c => c.Specie).OrderByDescending(c => c.ShotDate), "Id", "IdentifyingName", selectedCarcass);
-            ViewData["PrimalCuts"] = new SelectList(_context.PrimalCut, "Id", "IdentifyingName", selectedPrimalCut);
-            ViewData["StoragePlaces"] = new SelectList(_context.StoragePlace, "Id", "IdentifyingName", selectedStoragePlace);
+            ViewBag.Carcasses = new SelectList(_context.Carcass.Include(c => c.Specie).OrderByDescending(c => c.ShotDate), "Id", "IdentifyingName", selectedCarcass);
+            ViewBag.PrimalCuts = new SelectList(_context.PrimalCut, "Id", "IdentifyingName", selectedPrimalCut);
+            ViewBag.StoragePlaces = new SelectList(_context.StoragePlace, "Id", "IdentifyingName", selectedStoragePlace);
         }
     }
 }
