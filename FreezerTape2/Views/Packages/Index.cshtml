@@ -19,13 +19,13 @@
                 @Html.DisplayNameFor(model => model.PrimalCut)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Weight)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.Weight), "Index", new { orderParam = ViewBag.WeightOrderParam}, new { @class = "text-decoration-none text-reset"})
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PackingDate)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.PackingDate), "Index", new { orderParam = ViewBag.PackingDateOrderParam}, new { @class = "text-decoration-none text-reset"})
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ExpiryDate)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.ExpiryDate), "Index", new { orderParam = ViewBag.ExpiryDateOrderParam}, new { @class = "text-decoration-none text-reset"})
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.StoragePlace)

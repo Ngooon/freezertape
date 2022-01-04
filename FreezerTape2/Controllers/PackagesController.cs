@@ -21,13 +21,40 @@ namespace FreezerTape2.Controllers
         }
 
         // GET: Packages
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string orderParam)
         {
-            var packages = await _context.Package
+            ViewBag.ExpiryDateOrderParam = String.IsNullOrEmpty(orderParam) ? "expiryDateDesc" : "";
+            ViewBag.PackingDateOrderParam = orderParam == "packingDate" ? "packingDateDesc" : "packingDate";
+            ViewBag.WeightOrderParam = orderParam == "weight" ? "weightDesc" : "weight";
+
+            IQueryable<Package> packages = _context.Package
                 .Include(p => p.Carcass)
                 .ThenInclude(c => c.Specie)
                 .Include(p => p.PrimalCut)
-                .Include(p => p.StoragePlace).ToListAsync();
+                .Include(p => p.StoragePlace);
+
+            switch (orderParam)
+            {
+                case "expiryDateDesc":
+                    packages = packages.OrderByDescending(p => p.ExpiryDate);
+                    break;
+                case "packingDate":
+                    packages = packages.OrderBy(p => p.PackingDate);
+                    break;
+                case "packingDateDesc":
+                    packages = packages.OrderByDescending(p => p.PackingDate);
+                    break;
+                case "weight":
+                    packages = packages.OrderBy(p => p.Weight);
+                    break;
+                case "weightDesc":
+                    packages = packages.OrderByDescending(p => p.Weight);
+                    break;
+                default:
+                    packages = packages.OrderBy(p => p.ExpiryDate);
+                    break;
+            }
+
             return View(packages);
         }
 
