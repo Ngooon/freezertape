@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  freezertape2:
+    image: ${DOCKER_REGISTRY-}freezertape2
+    build:
+      context: .
+      dockerfile: FreezerTape2/Dockerfile
+    #environment:
+    #  - BASEPATH=/freezertape
+  mysql:
+    image: mysql
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=freezertape
+      - MYSQL_DATABASE=freezertapedb
+      - MYSQL_USER=freezertape
+      - MYSQL_PASSWORD=freezertape
+    volumes:
+      - freezertapedb:/var/lib/mysql
+
+volumes:
+  freezertapedb:

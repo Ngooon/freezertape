@@ -11,10 +11,10 @@ COPY ["FreezerTape2/FreezerTape2.csproj", "FreezerTape2/"]
 RUN dotnet restore "FreezerTape2/FreezerTape2.csproj"
 COPY . .
 WORKDIR "/src/FreezerTape2"
-RUN dotnet build "FreezerTape2.csproj" -c Release -o /app/build
+RUN dotnet build "FreezerTape2.csproj" -c Debug -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "FreezerTape2.csproj" -c Release -o /app/publish
+RUN dotnet publish "FreezerTape2.csproj" -c Debug -o /app/publish
 
 FROM base AS final
 WORKDIR /app

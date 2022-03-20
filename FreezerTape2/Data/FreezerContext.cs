@@ -10,6 +10,8 @@ namespace FreezerTape2.Data
 {
     public class FreezerContext : DbContext
     {
+        public static bool IsMigrationChecked = false;
+
         public FreezerContext (DbContextOptions<FreezerContext> options)
             : base(options)
         {
