@@ -53,6 +53,14 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ExpiryDate)
+                @if (item.HasExpiryDatePassed)
+                {
+                    @Html.Raw("&#10071");
+                } 
+                else if (item.IsExpiryDateNear)
+                {
+                    @Html.Raw("&#9888");
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StoragePlace.IdentifyingName)

@@ -1,12 +1,16 @@
-﻿namespace FreezerTape2.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace FreezerTape2.Models
 {
     public class PrimalCut
     {
         public int Id { get; set; }
         public string? Name { get; set; }
 
+        [Display(Name = "Specie")]
         public ICollection<Specie>? Species { get; set; }
 
+        [Display(Name = "Package")]
         public List<Package>? Packages { get; set; }
 
         public void Copy(PrimalCut primalCut)

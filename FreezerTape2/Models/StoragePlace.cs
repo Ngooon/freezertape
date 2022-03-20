@@ -1,10 +1,13 @@
-﻿namespace FreezerTape2.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace FreezerTape2.Models
 {
     public class StoragePlace
     {
         public int Id { get; set; }
         public string? Name { get; set; }
 
+        [Display(Name = "Package")]
         public List<Package>? Packages { get; set; }
 
         public String IdentifyingName

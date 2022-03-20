@@ -20,14 +20,17 @@ namespace FreezerTape2.Models
 
         [Display(Name = "Carcass")]
         public int? CarcassId { get; set; }
+        [Display(Name = "Carcass")]
         public Carcass? Carcass { get; set; }
 
         [Display(Name = "Primal cut")]
         public int? PrimalCutId { get; set; }
+        [Display(Name = "Primal cut")]
         public PrimalCut? PrimalCut { get; set; }
 
         [Display(Name = "Storage place")]
         public int? StoragePlaceId { get; set; }
+        [Display(Name = "Storage place")]
         public StoragePlace? StoragePlace { get; set; }
 
         public string WeightAsString
@@ -35,6 +38,30 @@ namespace FreezerTape2.Models
             get
             {
                 return new Weight(this.Weight).ToString();
+            }
+        }
+
+        public bool IsExpiryDateNear
+        {
+            get
+            {
+                if (DateTime.Now.AddMonths(2) > this.ExpiryDate)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        public bool HasExpiryDatePassed
+        {
+            get
+            {
+                if (DateTime.Now > this.ExpiryDate)
+                {
+                    return true;
+                }
+                return false;
             }
         }
 

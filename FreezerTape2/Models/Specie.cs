@@ -1,4 +1,6 @@
-﻿namespace FreezerTape2.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace FreezerTape2.Models
 {
     public class Specie
     {
@@ -6,10 +8,13 @@
         public string? Name { get; set; }
 
         /// <summary>Number of months after the package date a package should be eaten.</summary>
+        [Display(Name = "Shelf life")]
         public int? ShelfLife { get; set; }
 
+        [Display(Name = "Primal cut")]
         public ICollection<PrimalCut>? PrimalCuts { get; set; }
 
+        [Display(Name = "Carcass")]
         public List<Carcass>? Carcasses { get; set; }
 
         public Specie() { }
