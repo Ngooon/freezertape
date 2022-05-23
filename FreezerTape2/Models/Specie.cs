@@ -7,7 +7,9 @@ namespace FreezerTape2.Models
         public int Id { get; set; }
         public string? Name { get; set; }
 
-        /// <summary>Number of months after the package date a package should be eaten.</summary>
+        /// <summary>
+        /// Number of months after the package date a package should be eaten.
+        /// </summary>
         [Display(Name = "Shelf life")]
         public int? ShelfLife { get; set; }
 
@@ -24,6 +26,10 @@ namespace FreezerTape2.Models
             this.Id = id;
         }
 
+        /// <summary>
+        /// Returns a string with informaiton to identify this specific specie.
+        /// </summary>
+
         public String IdentifyingName
         {
             get
@@ -39,6 +45,9 @@ namespace FreezerTape2.Models
             }
         }
 
+        /// <summary>
+        /// Returns the number of packages of this specie.
+        /// </summary>
         public int CountPackages
         {
             get

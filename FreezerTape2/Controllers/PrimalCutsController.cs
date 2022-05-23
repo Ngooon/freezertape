@@ -20,7 +20,9 @@ namespace FreezerTape2.Controllers
             _context = context;
         }
 
-        // GET: PrimalCuts
+        /// <summary>
+        /// Returns all primal cuts.
+        /// </summary>
         public async Task<IActionResult> Index()
         {
             var primalCuts = await _context.PrimalCut
@@ -30,7 +32,10 @@ namespace FreezerTape2.Controllers
             return View(primalCuts);
         }
 
-        // GET: PrimalCuts/Details/5
+        /// <summary>
+        /// Returns detailed info about a specific primal cut.
+        /// </summary>
+        /// <param name="id">The id of the wanted primal cut.</param>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -54,16 +59,19 @@ namespace FreezerTape2.Controllers
             return View(primalCut);
         }
 
-        // GET: PrimalCuts/Create
+        /// <summary>
+        /// Returns a form to create a new primal cut.
+        /// </summary>
         public IActionResult Create()
         {
             PopulateSelectList();
             return View();
         }
 
-        // POST: PrimalCuts/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Creates a new primal cut in the database.
+        /// </summary>
+        /// <param name="primalCut">The primal cut to create.</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] PrimalCut primalCut, [FromForm] int[] specieIds)
@@ -80,7 +88,10 @@ namespace FreezerTape2.Controllers
             return View(primalCut);
         }
 
-        // GET: PrimalCuts/Edit/5
+        /// <summary>
+        /// Returns a prefilled form for the wanted primal cut. 
+        /// </summary>
+        /// <param name="id">The id of the wanted primal cut.</param>
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -104,9 +115,12 @@ namespace FreezerTape2.Controllers
             return View(primalCut);
         }
 
-        // POST: PrimalCuts/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Updates a primal cut.
+        /// </summary>
+        /// <param name="id">Id of the primal cut to update.</param>
+        /// <param name="primalCut">The new data.</param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] PrimalCut primalCut, [FromForm] int[] species)
@@ -148,7 +162,9 @@ namespace FreezerTape2.Controllers
             return View(primalCut);
         }
 
-        // GET: PrimalCuts/Delete/5
+        /// <summary>
+        /// Returns a confrimation to delete.
+        /// </summary>
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -172,7 +188,10 @@ namespace FreezerTape2.Controllers
             return View(primalCut);
         }
 
-        // POST: PrimalCuts/Delete/5
+        /// <summary>
+        /// Removes the primal cut.
+        /// </summary>
+        /// <param name="id">Id to remove.</param>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -183,17 +202,26 @@ namespace FreezerTape2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        /// True if the primal cut exists.
+        /// </summary>
+        /// <param name="id">The id to check.</param>
         private bool PrimalCutExists(int id)
         {
             return _context.PrimalCut.Any(e => e.Id == id);
         }
 
-        //ViewBag[]"Species"] = new MultiSelectList(_context.Specie.ToList(), "Id", "Name", selectedSpecie);
+        /// <summary>
+        /// Prepare a empty select list.
+        /// </summary>
         private void PopulateSelectList()
         {
             PopulateSelectList(null);
         }
 
+        /// <summary>
+        /// Prepare a select list with options.
+        /// </summary>
         private void PopulateSelectList(int[] selectedSpecie)
         {
             ViewData["Species"] = new MultiSelectList(_context.Specie, "Id", "IdentifyingName", selectedSpecie);

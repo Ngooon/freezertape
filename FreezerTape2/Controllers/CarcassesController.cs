@@ -20,7 +20,9 @@ namespace FreezerTape2.Controllers
             _context = context;
         }
 
-        // GET: Carcasses
+        /// <summary>
+        /// Returns all carcasses.
+        /// </summary>
         public async Task<IActionResult> Index()
         {
             var carcasses = await _context.Carcass
@@ -30,7 +32,10 @@ namespace FreezerTape2.Controllers
             return View(carcasses);
         }
 
-        // GET: Carcasses/Details/5
+        /// <summary>
+        /// Returns detailed info about a specific carcass.
+        /// </summary>
+        /// <param name="id">The id of the wanted carcass.</param>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -53,16 +58,19 @@ namespace FreezerTape2.Controllers
             return View(carcass);
         }
 
-        // GET: Carcasses/Create
+        /// <summary>
+        /// Returns a form to create a new carcass.
+        /// </summary>
         public IActionResult Create()
         {
             PopulateSelectList();
             return View();
         }
 
-        // POST: Carcasses/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Creates a new carcass in the database.
+        /// </summary>
+        /// <param name="carcass">The carcass to create.</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ShotDate,ShotPlace,ShotBy,LiveWeight,DressedWeight,PositionOfBulkhead,Gender,Age,Comment,SpecieId")] Carcass carcass)
@@ -77,7 +85,10 @@ namespace FreezerTape2.Controllers
             return View(carcass);
         }
 
-        // GET: Carcasses/Edit/5
+        /// <summary>
+        /// Returns a prefilled form for the wanted carcass. 
+        /// </summary>
+        /// <param name="id">The id of the wanted carcass.</param>
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -94,9 +105,11 @@ namespace FreezerTape2.Controllers
             return View(carcass);
         }
 
-        // POST: Carcasses/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Updates a carcass.
+        /// </summary>
+        /// <param name="id">Id of the carcass to update.</param>
+        /// <param name="carcass">The new data.</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ShotDate,ShotPlace,ShotBy,LiveWeight,DressedWeight,PositionOfBulkhead,Gender,Age,Comment,SpecieId")] Carcass carcass)
@@ -130,7 +143,9 @@ namespace FreezerTape2.Controllers
             return View(carcass);
         }
 
-        // GET: Carcasses/Delete/5
+        /// <summary>
+        /// Returns a confrimation to delete.
+        /// </summary>
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -153,7 +168,10 @@ namespace FreezerTape2.Controllers
             return View(carcass);
         }
 
-        // POST: Carcasses/Delete/5
+        /// <summary>
+        /// Removes the carcass.
+        /// </summary>
+        /// <param name="id">Id to remove.</param>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -164,16 +182,26 @@ namespace FreezerTape2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        /// True if the carcass exists.
+        /// </summary>
+        /// <param name="id">The id to check.</param>
         private bool CarcassExists(int id)
         {
             return _context.Carcass.Any(e => e.Id == id);
         }
 
+        /// <summary>
+        /// Prepare empty select lists.
+        /// </summary>
         private void PopulateSelectList()
         {
             PopulateSelectList(null);
         }
 
+        /// <summary>
+        /// Prepare select lists with options.
+        /// </summary>
         private void PopulateSelectList(int? selectedSpecie)
         {
             ViewData["Species"] = new SelectList(_context.Specie, "Id", "IdentifyingName", selectedSpecie);

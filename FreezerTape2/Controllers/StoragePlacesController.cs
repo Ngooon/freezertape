@@ -20,7 +20,9 @@ namespace FreezerTape2.Controllers
             _context = context;
         }
 
-        // GET: StoragePlaces
+        /// <summary>
+        /// Returns all storage places. GET: /storageplaces
+        /// </summary>
         public async Task<IActionResult> Index()
         {
             var storagePlaces = await _context.StoragePlace
@@ -29,7 +31,10 @@ namespace FreezerTape2.Controllers
             return View(storagePlaces);
         }
 
-        // GET: StoragePlaces/Details/5
+        /// <summary>
+        /// Returns a specific storage place. GET: /storageplaces/details/5
+        /// </summary>
+        /// <param name="id">The id of the wanted storage place.</param>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -37,6 +42,7 @@ namespace FreezerTape2.Controllers
                 return NotFound();
             }
 
+            // Make sure that the necessary data is included.
             var storagePlace = await _context.StoragePlace
                 .Include(s => s.Packages)
                 .ThenInclude(p => p.Carcass)
@@ -52,15 +58,18 @@ namespace FreezerTape2.Controllers
             return View(storagePlace);
         }
 
-        // GET: StoragePlaces/Create
+        /// <summary>
+        /// Returns a form to create a new storage place. GET: /storageplaces/create
+        /// </summary>
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: StoragePlaces/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Creates a new storage palce. POST: /storageplaces/create
+        /// </summary>
+        /// <param name="storagePlace">The storage palce to create.</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] StoragePlace storagePlace)
@@ -74,7 +83,10 @@ namespace FreezerTape2.Controllers
             return View(storagePlace);
         }
 
-        // GET: StoragePlaces/Edit/5
+        /// <summary>
+        /// Returns a prefilled form for the wanted storage place. GET: /storageplaces/edit/5
+        /// </summary>
+        /// <param name="id">The id of the wanted storage place.</param>
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -90,9 +102,11 @@ namespace FreezerTape2.Controllers
             return View(storagePlace);
         }
 
-        // POST: StoragePlaces/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Updates a storage place.
+        /// </summary>
+        /// <param name="id">Id of the storage place to update.</param>
+        /// <param name="storagePlace">The new data.</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] StoragePlace storagePlace)
@@ -125,7 +139,9 @@ namespace FreezerTape2.Controllers
             return View(storagePlace);
         }
 
-        // GET: StoragePlaces/Delete/5
+        /// <summary>
+        /// Returns a confrimation to delete.
+        /// </summary>
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -148,7 +164,10 @@ namespace FreezerTape2.Controllers
             return View(storagePlace);
         }
 
-        // POST: StoragePlaces/Delete/5
+        /// <summary>
+        /// Removes the storgae place.
+        /// </summary>
+        /// <param name="id">Id to remove.</param>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -159,6 +178,11 @@ namespace FreezerTape2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        /// <summary>
+        /// True if the storgae place exists.
+        /// </summary>
+        /// <param name="id">The id to check.</param>
         private bool StoragePlaceExists(int id)
         {
             return _context.StoragePlace.Any(e => e.Id == id);

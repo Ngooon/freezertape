@@ -35,6 +35,9 @@ namespace FreezerTape2.Models
         [Display(Name = "Package")]
         public List<Package>? Packages { get; set; }
 
+        /// <summary>
+        /// Returns a string with informaiton to identify this specific carcass.
+        /// </summary>
         public String IdentifyingName
         {
             get

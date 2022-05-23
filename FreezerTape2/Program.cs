@@ -37,6 +37,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// Make the application available through a subpath.
 string? basePath = Environment.GetEnvironmentVariable("BASEPATH");
 if (!string.IsNullOrEmpty(basePath))
 {

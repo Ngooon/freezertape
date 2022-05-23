@@ -20,7 +20,9 @@ namespace FreezerTape2.Controllers
             _context = context;
         }
 
-        // GET: Species
+        /// <summary>
+        /// Returns all species.
+        /// </summary>
         public async Task<IActionResult> Index()
         {
             var species = await _context.Specie
@@ -31,7 +33,10 @@ namespace FreezerTape2.Controllers
             return View(species);
         }
 
-        // GET: Species/Details/5
+        /// <summary>
+        /// Returns detailed info about a specific specie.
+        /// </summary>
+        /// <param name="id">The id of the wanted specie.</param>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -53,15 +58,18 @@ namespace FreezerTape2.Controllers
             return View(specie);
         }
 
-        // GET: Species/Create
+        /// <summary>
+        /// Returns a form to create a new specie.
+        /// </summary>
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Species/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Creates a new specie in the database.
+        /// </summary>
+        /// <param name="specie">The specie to create.</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,ShelfLife")] Specie specie)
@@ -75,7 +83,10 @@ namespace FreezerTape2.Controllers
             return View(specie);
         }
 
-        // GET: Species/Edit/5
+        /// <summary>
+        /// Returns a prefilled form for the wanted specie. 
+        /// </summary>
+        /// <param name="id">The id of the wanted specie.</param>
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -91,9 +102,12 @@ namespace FreezerTape2.Controllers
             return View(specie);
         }
 
-        // POST: Species/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Updates a specie.
+        /// </summary>
+        /// <param name="id">Id of the specie to update.</param>
+        /// <param name="specie">The new data.</param>
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ShelfLife")] Specie specie)
@@ -126,7 +140,9 @@ namespace FreezerTape2.Controllers
             return View(specie);
         }
 
-        // GET: Species/Delete/5
+        /// <summary>
+        /// Returns a confrimation to delete.
+        /// </summary>
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -147,7 +163,10 @@ namespace FreezerTape2.Controllers
             return View(specie);
         }
 
-        // POST: Species/Delete/5
+        /// <summary>
+        /// Removes the specie.
+        /// </summary>
+        /// <param name="id">Id to remove.</param>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -158,6 +177,10 @@ namespace FreezerTape2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        /// True if the specie exists.
+        /// </summary>
+        /// <param name="id">The id to check.</param>
         private bool SpecieExists(int id)
         {
             return _context.Specie.Any(e => e.Id == id);

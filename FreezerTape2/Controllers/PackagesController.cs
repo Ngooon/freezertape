@@ -20,9 +20,13 @@ namespace FreezerTape2.Controllers
             _context = context;
         }
 
-        // GET: Packages
+        /// <summary>
+        /// Returns all packages.
+        /// </summary>
+        /// <param name="orderParam">Deside how to order the packages.</param>
         public async Task<IActionResult> Index(string orderParam)
         {
+            // Set which orderParam that should be for each header. Makes it possible to toggle between desc and asc order.
             ViewBag.ExpiryDateOrderParam = String.IsNullOrEmpty(orderParam) ? "expiryDateDesc" : "";
             ViewBag.PackingDateOrderParam = orderParam == "packingDate" ? "packingDateDesc" : "packingDate";
             ViewBag.WeightOrderParam = orderParam == "weight" ? "weightDesc" : "weight";
@@ -33,6 +37,7 @@ namespace FreezerTape2.Controllers
                 .Include(p => p.PrimalCut)
                 .Include(p => p.StoragePlace);
 
+            // Let the databse order the packages.
             switch (orderParam)
             {
                 case "expiryDateDesc":
@@ -58,7 +63,10 @@ namespace FreezerTape2.Controllers
             return View(packages);
         }
 
-        // GET: Packages/Details/5
+        /// <summary>
+        /// Returns detailed info about a specific package.
+        /// </summary>
+        /// <param name="id">The id of the wanted package.</param>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -80,16 +88,19 @@ namespace FreezerTape2.Controllers
             return View(package);
         }
 
-        // GET: Packages/Create
+        /// <summary>
+        /// Returns a form to create a new package.
+        /// </summary>
         public IActionResult Create()
         {
             PopulateSelectList();
             return View();
         }
 
-        // POST: Packages/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Creates a new package in the database.
+        /// </summary>
+        /// <param name="package">The package to create.</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Weight,PackingDate,ExpiryDate,Comment,CarcassId,PrimalCutId,StoragePlaceId")] Package package)
@@ -112,7 +123,10 @@ namespace FreezerTape2.Controllers
             return View(package);
         }
 
-        // GET: Packages/Edit/5
+        /// <summary>
+        /// Returns a prefilled form for the wanted package. 
+        /// </summary>
+        /// <param name="id">The id of the wanted package.</param>
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -130,9 +144,12 @@ namespace FreezerTape2.Controllers
             return View(package);
         }
 
-        // POST: Packages/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Updates a package.
+        /// </summary>
+        /// <param name="id">Id of the package to update.</param>
+        /// <param name="package">The new data.</param>
+        /// 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Weight,PackingDate,ExpiryDate,Comment,CarcassId,PrimalCutId,StoragePlaceId")] Package package)
@@ -166,7 +183,9 @@ namespace FreezerTape2.Controllers
             return View(package);
         }
 
-        // GET: Packages/Delete/5
+        /// <summary>
+        /// Returns a confrimation to delete.
+        /// </summary>
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -188,7 +207,10 @@ namespace FreezerTape2.Controllers
             return View(package);
         }
 
-        // POST: Packages/Delete/5
+        /// <summary>
+        /// Removes the package.
+        /// </summary>
+        /// <param name="id">Id to remove.</param>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -199,16 +221,26 @@ namespace FreezerTape2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        /// True if the package exists.
+        /// </summary>
+        /// <param name="id">The id to check.</param>
         private bool PackageExists(int id)
         {
             return _context.Package.Any(e => e.Id == id);
         }
 
+        /// <summary>
+        /// Prepare empty select lists.
+        /// </summary>
         private void PopulateSelectList()
         {
             PopulateSelectList(null, null, null);
         }
 
+        /// <summary>
+        /// Prepare select lists with options.
+        /// </summary>
         private void PopulateSelectList(int? selectedCarcass, int? selectedPrimalCut, int? selectedStoragePlace)
         {
             ViewBag.Carcasses = new SelectList(_context.Carcass.Include(c => c.Specie).OrderByDescending(c => c.ShotDate), "Id", "IdentifyingName", selectedCarcass);

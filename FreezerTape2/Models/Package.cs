@@ -5,6 +5,7 @@ namespace FreezerTape2.Models
 {
     public class Package
     {
+
         public int Id { get; set; }
         public double? Weight { get; set; }
 
@@ -33,6 +34,9 @@ namespace FreezerTape2.Models
         [Display(Name = "Storage place")]
         public StoragePlace? StoragePlace { get; set; }
 
+        /// <summary>
+        /// Returns the <see cref="Weight"/> as a string with a unit.
+        /// </summary>
         public string WeightAsString
         {
             get
@@ -41,6 +45,9 @@ namespace FreezerTape2.Models
             }
         }
 
+        /// <summary>
+        /// True if the the expiry date is closer than 2 months.
+        /// </summary>
         public bool IsExpiryDateNear
         {
             get
@@ -53,6 +60,9 @@ namespace FreezerTape2.Models
             }
         }
 
+        /// <summary>
+        /// True if the expiry date has passed.
+        /// </summary>
         public bool HasExpiryDatePassed
         {
             get
@@ -65,6 +75,9 @@ namespace FreezerTape2.Models
             }
         }
 
+        /// <summary>
+        /// Returns a string with informaiton to identify this specific package.
+        /// </summary>
         public String IdentifyingName
         {
             get

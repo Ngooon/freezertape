@@ -53,6 +53,7 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ExpiryDate)
+                @*Display icons if the expoiry date is near or has passed.*@
                 @if (item.HasExpiryDatePassed)
                 {
                     @Html.Raw("&#10071");
